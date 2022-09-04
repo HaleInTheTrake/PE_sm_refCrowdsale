@@ -1,10 +1,10 @@
 {
   "name": "smart_zep",
   "version": "1.0.0",
-  "description": "",
+  "description": "This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx hardhat coverage"
   },
   "keywords": [],
   "author": "",
@@ -13,10 +13,22 @@
     "@openzeppelin/contracts": "^4.7.3",
     "@openzeppelin/contracts-upgradeable": "^4.7.3",
     "@remix-project/remixd": "^0.6.5",
-    "node-gyp": "^9.1.0"
+    "node-gyp": "^9.1.0",
+    "solidity-coverage": "^0.7.21"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "hardhat": "^2.10.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaleInTheTrake/PE_sm_refCrowdsale.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HaleInTheTrake/PE_sm_refCrowdsale/issues"
+  },
+  "homepage": "https://github.com/HaleInTheTrake/PE_sm_refCrowdsale#readme"
 }
