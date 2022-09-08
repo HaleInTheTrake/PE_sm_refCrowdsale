@@ -66,7 +66,12 @@ contract Crowdsale is Context, ReentrancyGuard {
         _wallet = owner_wallet;
         _token = traded_token;
     }
-        
+
+
+    receive() external payable {
+        buyTokens(_msgSender());
+    }
+
     /**
      * @return the token being sold.
      */

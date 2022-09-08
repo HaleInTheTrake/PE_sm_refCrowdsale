@@ -68,6 +68,17 @@ describe("Crowdsale", function() {
         expect(() => tx()).to.changeEtherBalance(crowdsale, amount_buy)
 
         expect(await crowdsale.weiRaised()).to.eq(wei_raised + amount_buy)
+
+        //emit and req
+        const tx_self = await buyer.sendTransaction({
+            to: crowdsale.address,
+            value: amount_buy
+        })
+        await tx_self.wait()
+        
+        await expect(tx_self)
+            .to.emit(crowdsale, "TokensPurchased")
+                .withArgs(buyer.address, buyer.address, amount_buy, amount_buy.mul(rate))
         
     })
 

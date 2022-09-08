@@ -1,30 +1,30 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
 const hre = require("hardhat");
+const ethers = hre.ethers
+
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  // sale param
+  //10 ** 6 * 10 ** 18
+  const total_supply = ethers.utils.parseUnits("1000000.0", 18)
+  // 1 EHT = 1000 $ && 1 token = 5 USD --> 1 USD = 10 ^ 15 wei && 1 token = 5 * 10 ^ 15 wei
+  const rate = 200
 
-  const lockedAmount = hre.ethers.utils.parseEther("1");
+  const [owner] = await ethers.getSigners()
+    
+  const SWGToken = await ethers.getContractFactory("SWGToken", owner)
+  const token = await SWGToken.deploy(total_supply)
+  await token.deployed()
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  const MyCrowdsale = await ethers.getContractFactory("Crowdsale", owner)
+  const crowdsale = await MyCrowdsale.deploy(rate, owner.address, token.address)
+  await crowdsale.deployed()
 
-  await lock.deployed();
-
-  console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+  console.log(owner.address)
+  console.log(token.address)
+  console.log(crowdsale.address)
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
+
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
